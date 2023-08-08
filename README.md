@@ -1,2 +1,1 @@
-# zeroth-utils
-Contains utility functions
+# zeroth-meta
