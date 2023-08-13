@@ -33,14 +33,14 @@ from pandas import DataFrame, Series, concat, MultiIndex, date_range, IndexSlice
 import numpy as np
 from datetime import datetime
 import logging
-
+from functools import partial
 
 
 class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
     """
     PanelCachedSource Class for generating random returns.
     """
-    def __init__(self, params: dict = dict(seed = 0, freq = "B", low = -0.05, high =0.05)):
+    def __init__(self, params: dict = dict(seed = 0, freq = "B", distribution = None)):
         """
         Standard parameters for the function class.
         params: dict
@@ -48,18 +48,48 @@ class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
                 The seed for the random number generator.
             freq: str
                 The frequency of the output weights.
-            low: float
-                The lower bound of the random number generator.
-            high: float
-                The upper bound of the random number generator.
+            distribution: callable
+                Numpy distribution function wrapped in functools partial, default is standard normal distribution.
         """
         super(RandomReturn, self).__init__(params)
         self.appendable = dict(xs=True, ts=True)
     
+    def _check_consistency(self, params):
+        if "distribution" not in params:
+            raise ValueError("distribution should be specified")
+        
+        distribution  = self.params["distribution"]
+        if distribution is not None:
+             if not isinstance(distribution, partial):
+                raise ValueError("distribution should be functools partial function specifying numpy method")
+        #     if not isinstance(distribution, dict):
+        #         raise ValueError("distribution should be dict")
+            
+        #     if "func" not in distribution and params not in distribution:
+        #         raise ValueError("distribution should have func and params of that func defined")
+        
     def execute(self, call_type=None, entities=None, period=None):
-        cols = MultiIndex.from_product([val for val in entities.values()], names=entities.keys())
+        np.random.seed(self.params["seed"])
+        self._check_consistency(self.params)
+        if self.params["distribution"] is None:
+            distribution = partial(np.random.normal, loc = 0.0, scale = 1.0)
+            # distribution = dict(func = np.random.normal, params = dict(loc = 0.0, scale = 1.0))
+        else:
+            distribution  = self.params["distribution"]
+        
+        if isinstance(entities, dict):
+            cols = MultiIndex.from_product([val for val in entities.values()], names=entities.keys())
+        elif isinstance(entities, (list, np.ndarray)):
+            cols = MultiIndex.from_product([entities], names=["entity"])
+        elif isinstance(entities, str):
+            cols = MultiIndex.from_product([[entities]], names=["entity"])
+        else:
+            raise ValueError("entities should be a dict, list, array or str")
+        
         idx = date_range(period[0], period[1], freq=self.params['freq'])
-        result = DataFrame(np.random.Generator.uniform(low = self.params["low"], high = self.params["high"],
-                                                       size = (len(idx), len(cols))), columns=cols, index=idx)
+        # values = distribution["func"](**distribution["params"], size = (len(idx), len(cols)))
+        values = distribution(size = (len(idx), len(cols)))
+
+        result = DataFrame(values, columns=cols, index=idx)
         
         return result

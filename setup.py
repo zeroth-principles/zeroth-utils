@@ -35,7 +35,6 @@ setup(
     # packages = find_packages(where="zeroth-meta"),
     packages = find_packages(),
     # package_dir={'': "zeroth-meta"},
-    install_requires=[
-        f"{local_name} @ file://localhost/{local_path}#egg={local_name}"],
+    install_requires=[],
     extras_require={},
 )
