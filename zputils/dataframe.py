@@ -72,7 +72,7 @@ class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
         np.random.seed(self.params["seed"])
         self._check_consistency(self.params)
         if self.params["distribution"] is None:
-            distribution = partial(np.random.normal, loc = 0.0, scale = 1.0)
+            distribution = partial(np.random.normal, loc = 0.0, scale = 0.01)
             # distribution = dict(func = np.random.normal, params = dict(loc = 0.0, scale = 1.0))
         else:
             distribution  = self.params["distribution"]
@@ -83,6 +83,8 @@ class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
             cols = MultiIndex.from_product([entities], names=["entity"])
         elif isinstance(entities, str):
             cols = MultiIndex.from_product([[entities]], names=["entity"])
+        elif isinstance(entities, MultiIndex):
+            cols = entities
         else:
             raise ValueError("entities should be a dict, list, array or str")
         
