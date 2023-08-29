@@ -68,7 +68,7 @@ class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
         #     if "func" not in distribution and params not in distribution:
         #         raise ValueError("distribution should have func and params of that func defined")
         
-    def execute(self, call_type=None, entities=None, period=None):
+    def _execute(self, call_type=None, entities=None, period=None):
         np.random.seed(self.params["seed"])
         self._check_consistency(self.params)
         if self.params["distribution"] is None:
