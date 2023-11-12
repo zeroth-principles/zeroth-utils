@@ -26,10 +26,10 @@ __email__ = 'engineering@zeroth-principles.com'
 import pandas as pd
 import logging
 
-from zpmeta.superclasses.functionclass import FunctionClass
+from zpmeta.funcs.func import Func
 
 
-class shift_g_df(FunctionClass):
+class shift_g_df(Func):
     """Function class for shifting a dataframe with time-series index.
     
     Args:
