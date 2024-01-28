@@ -53,12 +53,11 @@ class SimulatedDataFrame(PanelSource, metaclass=MultitonMeta):
         """
         super(SimulatedDataFrame, self).__init__(params)
         self.appendable = dict(xs=True, ts=True)
-        self._check_consistency()
 
     @staticmethod
-    def _check_consistency(params):
+    def check_consistency(params):
         if "distribution" not in params:
-            raise ValueError("distribution should be specified")
+            raise KeyError("distribution should be specified")
         
         distribution  = params["distribution"]
         if distribution is not None:

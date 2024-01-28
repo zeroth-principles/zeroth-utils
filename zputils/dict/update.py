@@ -14,7 +14,7 @@ from copy import deepcopy
 
 def deep_update(d, u):
     """Deep update of dict d with dict u."""
-    d_copy = deep_copy(d)
+    d_copy = deepcopy(d)
     for k, v in u.items():
         if isinstance(v, dict):
             d_copy[k] = deep_update(d_copy.get(k, {}), v)
