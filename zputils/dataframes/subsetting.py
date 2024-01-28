@@ -27,9 +27,9 @@ __authors__ = ['Deepak Singh <deepaksingh@zeroth-principles.com>']
 import pandas as pd
 import logging
 
-from zpmeta.superclasses.functionclass import FunctionClass
+from zpmeta.funcs.func import Func
 
-class subset_g_df(FunctionClass):
+class subset_g_df(Func):
     """Function class for subsetting a dataframe based on a dictionary of level names as keys 
     and level values as values.
     

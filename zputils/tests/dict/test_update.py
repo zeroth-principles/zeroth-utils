@@ -7,7 +7,7 @@ __author__ = 'Zeroth Principles Engineering'
 __email__ = 'engineering@zeroth-principles.com'
 __authors__ = ['Deepak Singh <deepaksingh@zeroth-principles.com>']
 
-from zputils.dict import deep_update, custom_serializer, json_dump
+from zputils.dict.update import deep_update, custom_serializer, json_dump
 import pytest
 import json
 
