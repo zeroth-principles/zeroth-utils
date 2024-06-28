@@ -1,12 +1,12 @@
-from zpmeta.superclasses.panelcachedsource import PanelCachedSource
+from zpmeta.superclasses.source import Su
 from zpmeta.metaclasses.singletons import MultitonMeta
 
 import pandas as pd
 import numpy as np
 
 
-class SimulatedDataFrame(PanelCachedSource, metaclass=MultitonMeta):
-    '''Subclasses PanelCachedSource to create a dataframe of random numbers.
+class SimulatedDataFrame(Su, metaclass=MultitonMeta):
+    '''Subclasses Su to create a dataframe of random numbers.
     Accepts a dictionary of parameters, including:
     cols: list of column names
     '''
@@ -20,3 +20,4 @@ class SimulatedDataFrame(PanelCachedSource, metaclass=MultitonMeta):
         result = pd.DataFrame(np.random.randn(len(idx), len(cols)), columns=cols, index=idx)
         
         return result
+    

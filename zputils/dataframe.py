@@ -26,8 +26,8 @@ __email__ = 'engineering@zeroth-principles.com'
 __authors__ = ['Deepak Singh <deepaksingh@zeroth-principles.com>']
 
 import pandas as pd
-from zpmeta.superclasses.panelcachedsource import PanelCachedSource
-from zpmeta.superclasses.functionclass import FunctionClass
+from zpmeta.superclasses.source import Su
+from zpmeta.superclasses.func import Fu
 from zpmeta.metaclasses.singletons import MultitonMeta
 from pandas import DataFrame, Series, concat, MultiIndex, date_range, IndexSlice
 import numpy as np
@@ -36,9 +36,9 @@ import logging
 from functools import partial
 
 
-class RandomReturn(PanelCachedSource, metaclass=MultitonMeta):
+class RandomReturn(Su, metaclass=MultitonMeta):
     """
-    PanelCachedSource Class for generating random returns.
+    Su Class for generating random returns.
     """
     def __init__(self, params: dict = dict(seed = 0, freq = "B", distribution = None)):
         """
