@@ -65,15 +65,15 @@ class RandomReturn(Su, metaclass=MultitonMeta):
         #     if not isinstance(distribution, dict):
         #         raise ValueError("distribution should be dict")
             
-        #     if "func" not in distribution and params not in distribution:
-        #         raise ValueError("distribution should have func and params of that func defined")
+        #     if "func_dict" not in distribution and params not in distribution:
+        #         raise ValueError("distribution should have func_dict and params of that func_dict defined")
         
     def _execute(self, call_type=None, entities=None, period=None):
         np.random.seed(self.params["seed"])
         self._check_consistency(self.params)
         if self.params["distribution"] is None:
             distribution = partial(np.random.normal, loc = 0.0, scale = 0.01)
-            # distribution = dict(func = np.random.normal, params = dict(loc = 0.0, scale = 1.0))
+            # distribution = dict(func_dict = np.random.normal, params = dict(loc = 0.0, scale = 1.0))
         else:
             distribution  = self.params["distribution"]
         
@@ -89,7 +89,7 @@ class RandomReturn(Su, metaclass=MultitonMeta):
             raise ValueError("entities should be a dict, list, array or str")
         
         idx = date_range(period[0], period[1], freq=self.params['freq'])
-        # values = distribution["func"](**distribution["params"], size = (len(idx), len(cols)))
+        # values = distribution["func_dict"](**distribution["params"], size = (len(idx), len(cols)))
         values = distribution(size = (len(idx), len(cols)))
 
         result = DataFrame(values, columns=cols, index=idx)

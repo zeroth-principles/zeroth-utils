@@ -76,20 +76,20 @@ def test_custom_serializer_with_non_callable():
 def test_json_dump_with_function():
     data = {
         "name": "Alice",
-        "func": print
+        "func_dict": print
     }
     result = json_dump(data)
-    expected = json.dumps({"name": "Alice", "func": "<built-in function print>"})
+    expected = json.dumps({"name": "Alice", "func_dict": "<built-in function print>"})
     assert result == expected
 
 def test_json_dump_with_lambda():
     data = {
         "name": "Bob",
-        "func": lambda x: x + 1
+        "func_dict": lambda x: x + 1
     }
     result = json_dump(data)
     assert "name" in result
-    assert "func" in result
+    assert "func_dict" in result
 
 def test_json_dump_with_standard_data():
     data = {

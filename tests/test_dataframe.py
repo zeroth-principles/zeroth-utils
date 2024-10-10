@@ -36,8 +36,8 @@ def test_invalid_distribution_dict():
         rr(entities=['A'], period=('2022-01-01', '2022-01-05'))
 
 # def test_missing_distribution_keys():
-#     with pytest.raises(ValueError, match="distribution should have func and params of that func defined"):
-#         invalid_distribution = {"func": np.random.normal}
+#     with pytest.raises(ValueError, match="distribution should have func_dict and params of that func_dict defined"):
+#         invalid_distribution = {"func_dict": np.random.normal}
 #         rr = RandomReturn(params={"distribution": invalid_distribution})
 #         rr(entities=['A'], period=('2022-01-01', '2022-01-05'))
 
